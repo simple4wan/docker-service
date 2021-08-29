@@ -17,7 +17,8 @@ services:
       - nginx
     image: 'adguard/adguardhome:latest'
     ports:
-      - '53'
+      - '53:53'
+      - '853:853/tcp'
     restart: always
     volumes:
       - './adguardhome/work:/opt/adguardhome/work'
@@ -31,7 +32,9 @@ services:
     restart: always
     volumes:
       - './nginx/templates:/etc/nginx/templates'
+      - '/root/.acme.sh:/etc/nginx/.acme.sh'
   portainer:
+    command: -H unix:///var/run/docker.sock
     depends_on:
       - nginx
     image: 'portainer/portainer-ce:latest'

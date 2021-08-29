@@ -1,0 +1,55 @@
+version: '3'
+services:
+  aliyundriver:
+    environment:
+      TZ: '${TZ}'
+      JAVA_OPTS: '${JAVA_OPTS}'
+      ALIYUNDRIVE_REFRESH_TOKEN: '${ALIYUNDRIVE_REFRESH_TOKEN}'
+      ALIYUNDRIVE_AUTH_PASSWORD: '${ALIYUNDRIVE_AUTH_PASSWORD}'
+    depends_on:
+      - nginx
+    image: zx5253/webdav-aliyundriver
+    restart: always
+    volumes:
+      - './aliyundriver/aliyun-driver:/etc/aliyun-driver'
+  adguardhome:
+    depends_on:
+      - nginx
+    image: 'adguard/adguardhome:latest'
+    ports:
+      - '53'
+    restart: always
+    volumes:
+      - './adguardhome/work:/opt/adguardhome/work'
+      - './adguardhome/conf:/opt/adguardhome/conf'
+  nginx:
+    environment:
+      TZ: '${TZ}'
+    image: 'nginx:latest'
+    ports:
+      - '8443:8443'
+    restart: always
+    volumes:
+      - './nginx/templates:/etc/nginx/templates'
+  portainer:
+    depends_on:
+      - nginx
+    image: 'portainer/portainer-ce:latest'
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - './portainer/data:/data'
+  qinglong:
+    depends_on:
+      - nginx
+    image: 'whyour/qinglong:latest'
+    restart: always
+    volumes:
+      - './qinglong/config:/ql/config'
+      - './qinglong/log:/ql/log'
+      - './qinglong/db:/ql/db'
+      - './qinglong/repo:/ql/repo'
+      - './qinglong/raw:/ql/raw'
+      - './qinglong/scripts:/ql/scripts'
+      - './qinglong/jbot:/ql/jbot'
+      - './qinglong/ninja:/ql/ninja'

@@ -16,7 +16,7 @@ services:
   adguardhome:
     depends_on:
       - nginx
-    image: 'adguard/adguardhome:latest'
+    image: adguard/adguardhome:latest
     ports:
       - '53:53'
       - '853:853/tcp'
@@ -24,10 +24,21 @@ services:
     volumes:
       - './adguardhome/work:/opt/adguardhome/work'
       - './adguardhome/conf:/opt/adguardhome/conf'
+  jellyfin:
+    depends_on:
+      - nginx
+    devices:
+      - /dev/dri:/dev/dri
+    image: jellyfin/jellyfin:latest
+    restart: always
+    volumes:
+      - ./jellyfin/config:/config
+      - ./jellyfin/cache:/cache
+      - ./rclone/data:/media
   nginx:
     environment:
       TZ: '${TZ}'
-    image: 'nginx:latest'
+    image: nginx:latest
     ports:
       - '8443:8443'
     restart: always
@@ -38,7 +49,7 @@ services:
     command: -H unix:///var/run/docker.sock
     depends_on:
       - nginx
-    image: 'portainer/portainer-ce:latest'
+    image: portainer/portainer-ce:latest
     restart: always
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
@@ -46,7 +57,7 @@ services:
   qinglong:
     depends_on:
       - nginx
-    image: 'whyour/qinglong:latest'
+    image: whyour/qinglong:latest
     restart: always
     volumes:
       - './qinglong/config:/ql/config'
@@ -70,4 +81,20 @@ services:
     volumes:
       - './rclone/rclone:/config/rclone'
       - './rclone/data:/data:shared'
+  transmission:
+    depends_on:
+      - nginx
+    environment:
+      TZ: '${TZ}'
+      TRANSMISSION_WEB_HOME: '${TRANSMISSION_WEB_HOME}'
+      USER: '${TRANSMISSION_USER}'
+      PASS: '${TRANSMISSION_PASS}'
+    image: ghcr.io/linuxserver/transmission:latest
+    ports:
+      - '51413:51413'
+    restart: always
+    volumes:
+      - ./transmission/config:/config
+      - ./transmission/downloads:/downloads
+      - ./transmission/watch:/watch
 

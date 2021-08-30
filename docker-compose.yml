@@ -19,7 +19,8 @@ services:
     image: adguard/adguardhome:latest
     ports:
       - '53:53'
-      - '853:853/tcp'
+      - '53:53/udp'
+      - '853:853'
     restart: always
     volumes:
       - './adguardhome/work:/opt/adguardhome/work'
@@ -92,6 +93,7 @@ services:
     image: ghcr.io/linuxserver/transmission:latest
     ports:
       - '51413:51413'
+      - '51413:51413/udp'
     restart: always
     volumes:
       - ./transmission/config:/config

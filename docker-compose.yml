@@ -27,8 +27,6 @@ services:
   jellyfin:
     depends_on:
       - nginx
-    devices:
-      - /dev/dri:/dev/dri
     image: jellyfin/jellyfin:latest
     restart: always
     volumes:

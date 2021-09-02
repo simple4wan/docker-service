@@ -8,7 +8,6 @@ services:
       ALIYUNDRIVE_AUTH_PASSWORD: '${ALIYUNDRIVE_AUTH_PASSWORD}'
     depends_on:
       - nginx
-      - rclone
     image: zx5253/webdav-aliyundriver
     restart: always
     volumes:
@@ -35,7 +34,7 @@ services:
     volumes:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
-      - ./rclone/data:/media
+      - ./jellyfin/media:/media
   nginx:
     environment:
       TZ: '${TZ}'
@@ -69,19 +68,6 @@ services:
       - './qinglong/scripts:/ql/scripts'
       - './qinglong/jbot:/ql/jbot'
       - './qinglong/ninja:/ql/ninja'
-  rclone:
-    command: mount aliyundriver:/ /data --vfs-cache-mode writes --allow-non-empty --allow-other
-    devices:
-      - /dev/fuse:/dev/fuse
-    security_opt:
-      - apparmor:unconfined
-    cap_add:
-      - SYS_ADMIN
-    image: rclone/rclone:latest
-    restart: always
-    volumes:
-      - './rclone/rclone:/config/rclone'
-      - './rclone/data:/data:shared'
   transmission:
     depends_on:
       - nginx

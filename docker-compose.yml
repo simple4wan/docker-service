@@ -2,16 +2,15 @@ version: '3'
 services:
   aliyundriver:
     environment:
-      TZ: '${TZ}'
-      JAVA_OPTS: '${JAVA_OPTS}'
-      ALIYUNDRIVE_REFRESH_TOKEN: '${ALIYUNDRIVE_REFRESH_TOKEN}'
-      ALIYUNDRIVE_AUTH_PASSWORD: '${ALIYUNDRIVE_AUTH_PASSWORD}'
+      REFRESH_TOKEN: '${REFRESH_TOKEN}'
+      WEBDAV_AUTH_USER: '${WEBDAV_AUTH_USER}'
+      WEBDAV_AUTH_PASSWORD: '${WEBDAV_AUTH_PASSWORD}'
     depends_on:
       - nginx
-    image: zx5253/webdav-aliyundriver
+    image: messense/aliyundrive-webdav
     restart: always
     volumes:
-      - './aliyundriver/aliyun-driver:/etc/aliyun-driver'
+      - './aliyundriver/aliyundrive-webdav:/etc/aliyundrive-webdav'
   adguardhome:
     depends_on:
       - nginx
@@ -24,15 +23,6 @@ services:
     volumes:
       - './adguardhome/work:/opt/adguardhome/work'
       - './adguardhome/conf:/opt/adguardhome/conf'
-  jellyfin:
-    depends_on:
-      - nginx
-    image: jellyfin/jellyfin:latest
-    restart: always
-    volumes:
-      - ./jellyfin/config:/config
-      - ./jellyfin/cache:/cache
-      - ./jellyfin/media:/media
   nginx:
     environment:
       TZ: '${TZ}'

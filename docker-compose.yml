@@ -45,7 +45,7 @@ services:
   qinglong:
     depends_on:
       - nginx
-    image: whyour/qinglong:latest
+    image: shufflewzc/qinglong:latest
     restart: always
     volumes:
       - './qinglong/config:/ql/config'

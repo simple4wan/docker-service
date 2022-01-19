@@ -33,6 +33,15 @@ services:
     volumes:
       - './nginx/templates:/etc/nginx/templates'
       - '/root/.acme.sh:/etc/nginx/.acme.sh'
+  nvjdc:
+    depends_on:
+      - nginx
+    image: shufflewzc/nvjdc:latest
+    privileged: true
+    restart: always
+    volumes:
+      - './nvjdc:/app'
+      - '/etc/localtime:/etc/localtime:ro'
   portainer:
     command: -H unix:///var/run/docker.sock
     depends_on:

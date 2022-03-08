@@ -1,6 +1,6 @@
 version: '3'
 services:
-  aliyundriver:
+  aliyundrive:
     environment:
       REFRESH_TOKEN: '${REFRESH_TOKEN}'
       WEBDAV_AUTH_USER: '${WEBDAV_AUTH_USER}'
@@ -10,7 +10,7 @@ services:
     image: messense/aliyundrive-webdav
     restart: always
     volumes:
-      - './aliyundriver/aliyundrive-webdav:/etc/aliyundrive-webdav'
+      - './aliyundrive/aliyundrive-webdav:/etc/aliyundrive-webdav'
   adguardhome:
     depends_on:
       - nginx
@@ -33,15 +33,6 @@ services:
     volumes:
       - './nginx/templates:/etc/nginx/templates'
       - '/root/.acme.sh:/etc/nginx/.acme.sh'
-  nvjdc:
-    depends_on:
-      - nginx
-    image: shufflewzc/nvjdc:latest
-    privileged: true
-    restart: always
-    volumes:
-      - './nvjdc:/app'
-      - '/etc/localtime:/etc/localtime:ro'
   portainer:
     command: -H unix:///var/run/docker.sock
     depends_on:
@@ -82,4 +73,10 @@ services:
       - ./transmission/config:/config
       - ./transmission/downloads:/downloads
       - ./transmission/watch:/watch
+  watchtower:
+    environment:
+      WATCHTOWER_CLEANUP=true
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 

@@ -75,7 +75,7 @@ services:
       - ./transmission/watch:/watch
   watchtower:
     environment:
-      WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_CLEANUP=true
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

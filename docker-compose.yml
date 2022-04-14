@@ -1,6 +1,18 @@
 version: '3'
 services:
-  aliyundrive:
+  adguardhome:
+    depends_on:
+      - nginx
+    image: adguard/adguardhome:latest
+    ports:
+      - 53:53
+      - 53:53/udp
+      - 853:853
+    restart: always
+    volumes:
+      - ./adguardhome/work:/opt/adguardhome/work
+      - ./adguardhome/conf:/opt/adguardhome/conf
+  aliyundrive-webdav:
     environment:
       REFRESH_TOKEN: '${REFRESH_TOKEN}'
       WEBDAV_AUTH_USER: '${WEBDAV_AUTH_USER}'
@@ -10,52 +22,57 @@ services:
     image: messense/aliyundrive-webdav
     restart: always
     volumes:
-      - './aliyundrive/aliyundrive-webdav:/etc/aliyundrive-webdav'
-  adguardhome:
-    depends_on:
-      - nginx
-    image: adguard/adguardhome:latest
-    ports:
-      - '53:53'
-      - '53:53/udp'
-      - '853:853'
+      - ./aliyundrive-webdav/aliyundrive-webdav:/etc/aliyundrive-webdav
+  homeassistant:
+    environment:
+      TZ: '${TZ}'
+    image: lscr.io/linuxserver/homeassistant
+    network_mode: host
     restart: always
     volumes:
-      - './adguardhome/work:/opt/adguardhome/work'
-      - './adguardhome/conf:/opt/adguardhome/conf'
+      - /homeassistant/config:/config
   nginx:
     environment:
       TZ: '${TZ}'
-    image: nginx:latest
+    image: lscr.io/linuxserver/nginx
     ports:
-      - '8443:8443'
+      - 8443:8443
     restart: always
     volumes:
-      - './nginx/templates:/etc/nginx/templates'
-      - '/root/.acme.sh:/etc/nginx/.acme.sh'
+      - ./nginx/config:/config
+      - /root/.acme.sh:/.acme.sh
+  node-red:
+    environment:
+      TZ: '${TZ}'
+    image: nodered/node-red
+    ports:
+      - "1880:1880"
+    restart: always
+    volumes:
+      - ./node-red/data:/data
   portainer:
     command: -H unix:///var/run/docker.sock
     depends_on:
       - nginx
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce
     restart: always
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - './portainer/data:/data'
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer/data:/data
   qinglong:
     depends_on:
       - nginx
-    image: shufflewzc/qinglong:latest
+    image: shufflewzc/qinglong
     restart: always
     volumes:
-      - './qinglong/config:/ql/config'
-      - './qinglong/log:/ql/log'
-      - './qinglong/db:/ql/db'
-      - './qinglong/repo:/ql/repo'
-      - './qinglong/raw:/ql/raw'
-      - './qinglong/scripts:/ql/scripts'
-      - './qinglong/jbot:/ql/jbot'
-      - './qinglong/ninja:/ql/ninja'
+      - ./qinglong/config:/ql/config
+      - ./qinglong/log:/ql/log
+      - ./qinglong/db:/ql/db
+      - ./qinglong/repo:/ql/repo
+      - ./qinglong/raw:/ql/raw
+      - ./qinglong/scripts:/ql/scripts
+      - ./qinglong/jbot:/ql/jbot
+      - ./qinglong/ninja:/ql/ninja
   transmission:
     depends_on:
       - nginx
@@ -64,10 +81,10 @@ services:
       TRANSMISSION_WEB_HOME: '${TRANSMISSION_WEB_HOME}'
       USER: '${TRANSMISSION_USER}'
       PASS: '${TRANSMISSION_PASS}'
-    image: ghcr.io/linuxserver/transmission:latest
+    image: ghcr.io/linuxserver/transmission
     ports:
-      - '51413:51413'
-      - '51413:51413/udp'
+      - 51413:51413
+      - 51413:51413/udp
     restart: always
     volumes:
       - ./transmission/config:/config
@@ -75,7 +92,7 @@ services:
       - ./transmission/watch:/watch
   watchtower:
     environment:
-      - WATCHTOWER_CLEANUP=true
+      WATCHTOWER_CLEANUP: true
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

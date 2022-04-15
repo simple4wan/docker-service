@@ -32,7 +32,7 @@ services:
     network_mode: host
     restart: always
     volumes:
-      - /homeassistant/config:/config
+      - ./homeassistant/config:/config
   nginx:
     environment:
       TZ: '${TZ}'

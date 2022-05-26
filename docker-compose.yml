@@ -33,18 +33,6 @@ services:
     restart: always
     volumes:
       - ./homeassistant/config:/config
-  homebridge:
-    environment:
-      TZ: '${TZ}'
-      PUID: 0
-      PGID: 0
-      HOMEBRIDGE_CONFIG_UI: 1
-      HOMEBRIDGE_CONFIG_UI_PORT: 8581
-    image: oznu/homebridge
-    network_mode: host
-    restart: always
-    volumes:
-      - ./homebridge/config:/homebridge
   nginx:
     environment:
       TZ: '${TZ}'

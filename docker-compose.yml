@@ -27,7 +27,7 @@ services:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
-      PGID: ${GUID}
+      PGID: ${PGID}
     image: lscr.io/linuxserver/homeassistant
     network_mode: host
     restart: always
@@ -37,7 +37,7 @@ services:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
-      PGID: ${GUID}
+      PGID: ${PGID}
       HOMEBRIDGE_CONFIG_UI: 1
       HOMEBRIDGE_CONFIG_UI_PORT: 8581
     image: oznu/homebridge
@@ -49,7 +49,7 @@ services:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
-      PGID: ${GUID}
+      PGID: ${PGID}
     image: lscr.io/linuxserver/nginx
     ports:
       - 8443:8443
@@ -94,7 +94,7 @@ services:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
-      PGID: ${GUID}
+      PGID: ${PGID}
       TRANSMISSION_WEB_HOME: '${TRANSMISSION_WEB_HOME}'
       USER: '${TRANSMISSION_USER}'
       PASS: '${TRANSMISSION_PASS}'

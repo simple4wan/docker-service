@@ -12,45 +12,33 @@ services:
     volumes:
       - ./adguardhome/work:/opt/adguardhome/work
       - ./adguardhome/conf:/opt/adguardhome/conf
-  aliyundrive-webdav:
-    environment:
-      REFRESH_TOKEN: '${REFRESH_TOKEN}'
-      WEBDAV_AUTH_USER: '${WEBDAV_AUTH_USER}'
-      WEBDAV_AUTH_PASSWORD: '${WEBDAV_AUTH_PASSWORD}'
-    depends_on:
-      - nginx
-    image: messense/aliyundrive-webdav
-    restart: always
-    volumes:
-      - ./aliyundrive-webdav/aliyundrive-webdav:/etc/aliyundrive-webdav
   homeassistant:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
       PGID: ${PGID}
-    image: lscr.io/linuxserver/homeassistant
+    image: linuxserver/homeassistant
     network_mode: host
     restart: always
     volumes:
       - ./homeassistant/config:/config
-  homebridge:
+  mariadb:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
       PGID: ${PGID}
-      HOMEBRIDGE_CONFIG_UI: 1
-      HOMEBRIDGE_CONFIG_UI_PORT: 8581
-    image: oznu/homebridge
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    image: linuxserver/mariadb
     network_mode: host
     restart: always
     volumes:
-      - ./homebridge/config:/homebridge
+      - ./mariadb/config:/config
   nginx:
     environment:
       TZ: '${TZ}'
       PUID: ${PUID}
       PGID: ${PGID}
-    image: lscr.io/linuxserver/nginx
+    image: linuxserver/nginx
     ports:
       - 8443:8443
     restart: always

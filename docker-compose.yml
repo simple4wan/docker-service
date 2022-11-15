@@ -76,6 +76,14 @@ services:
       - ./qinglong/scripts:/ql/scripts
       - ./qinglong/jbot:/ql/jbot
       - ./qinglong/ninja:/ql/ninja
+  scrypted:
+    environment:
+      TZ: '${TZ}'
+    image: koush/scrypted
+    network_mode: host
+    restart: always
+    volumes:
+      - ./scrypted/data:/server/volume
   transmission:
     depends_on:
       - nginx

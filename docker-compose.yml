@@ -62,20 +62,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer/data:/data
-  qinglong:
-    depends_on:
-      - nginx
-    image: shufflewzc/qinglong
-    restart: always
-    volumes:
-      - ./qinglong/config:/ql/config
-      - ./qinglong/log:/ql/log
-      - ./qinglong/db:/ql/db
-      - ./qinglong/repo:/ql/repo
-      - ./qinglong/raw:/ql/raw
-      - ./qinglong/scripts:/ql/scripts
-      - ./qinglong/jbot:/ql/jbot
-      - ./qinglong/ninja:/ql/ninja
   scrypted:
     environment:
       TZ: '${TZ}'

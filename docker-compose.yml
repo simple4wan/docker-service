@@ -42,6 +42,7 @@ services:
       - 58080:8080
       - 58081:8081
       - 51080:1080
+      - 51080:1080/udp
     restart: always
     volumes:
       - ~/.mitmproxy:/home/mitmproxy/.mitmproxy

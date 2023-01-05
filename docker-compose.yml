@@ -3,7 +3,7 @@ services:
   adguardhome:
     depends_on:
       - nginx
-    image: adguard/adguardhome:latest
+    image: adguard/adguardhome
     ports:
       - 53:53
       - 53:53/udp
@@ -33,6 +33,14 @@ services:
     restart: always
     volumes:
       - ./mariadb/config:/config
+  mitmproxy:
+    command: mitmdump
+    environment:
+      TZ: '${TZ}'
+    image: mitmproxy/mitmproxy
+    ports:
+      - 58080:8080
+    restart: always
   nginx:
     environment:
       TZ: '${TZ}'

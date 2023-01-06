@@ -39,7 +39,7 @@ services:
       TZ: '${TZ}'
     image: mitmproxy/mitmproxy
     ports:
-      - 58080:8080
+      - 58080:58080
       - 58081:8081
       - 51080:1080
       - 51080:1080/udp

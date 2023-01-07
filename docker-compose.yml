@@ -12,15 +12,6 @@ services:
     volumes:
       - ./adguardhome/work:/opt/adguardhome/work
       - ./adguardhome/conf:/opt/adguardhome/conf
-  esphome:
-    environment:
-      TZ: '${TZ}'
-    image: esphome/esphome
-    network_mode: host
-    privileged: true
-    restart: always
-    volumes:
-      - ./esphome/config:/config  
   homeassistant:
     environment:
       TZ: '${TZ}'

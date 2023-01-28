@@ -34,7 +34,7 @@ services:
     volumes:
       - ./mariadb/config:/config
   mitmproxy:
-    command: /home/mitmproxy/.mitmproxy/start.sh
+    command: mitmdump
     environment:
       TZ: '${TZ}'
     image: mitmproxy/mitmproxy

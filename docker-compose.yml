@@ -34,7 +34,7 @@ services:
     volumes:
       - ./mariadb/config:/config
   mitmproxy:
-    command: /bin/bash -c "pip install -r requirements.txt && mitmdump"
+    command: /bin/bash -c "cd ~/.mitmproxy/ && pip install -r requirements.txt && mitmdump"
     environment:
       TZ: '${TZ}'
     image: mitmproxy/mitmproxy

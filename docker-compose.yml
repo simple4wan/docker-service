@@ -75,6 +75,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer/data:/data
+  qinglong:
+    environment:
+      TZ: '${TZ}'
+    depends_on:
+      - nginx
+    image: whyour/qinglong
+    restart: always
+    volumes:
+      - ./qinglong/data:/ql/data
   scrypted:
     environment:
       TZ: '${TZ}'

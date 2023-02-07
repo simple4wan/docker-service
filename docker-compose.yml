@@ -123,6 +123,11 @@ services:
       - ./transmission/config:/config
       - ./transmission/downloads:/downloads
       - ./transmission/watch:/watch
+  xiaoya:
+    image: xiaoyaliu/alist
+    restart: always
+    volumes:
+      - ./xiaoya/data:/data
   watchtower:
     environment:
       WATCHTOWER_CLEANUP: 'true'

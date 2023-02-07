@@ -12,6 +12,18 @@ services:
     volumes:
       - ./adguardhome/work:/opt/adguardhome/work
       - ./adguardhome/conf:/opt/adguardhome/conf
+  alist:
+    depends_on:
+      - nginx
+    environment:
+      TZ: '${TZ}'
+      PUID: ${PUID}
+      PGID: ${PGID}
+      UMASK: ${UMASK}
+    image: xhofe/alist
+    restart: always
+    volumes:
+      - ./alist/data:/opt/alist/data
   homeassistant:
     environment:
       TZ: '${TZ}'

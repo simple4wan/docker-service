@@ -1,2 +1,4 @@
 *
+!transmission-web-control/
+!transmission-web-control/**
 !.gitignore

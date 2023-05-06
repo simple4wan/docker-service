@@ -86,8 +86,9 @@ services:
   node-red:
     environment:
       TZ: '${TZ}'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     image: nodered/node-red
-    network_mode: host
     restart: always
     volumes:
       - ./node-red/data:/data

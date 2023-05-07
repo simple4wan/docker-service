@@ -54,7 +54,8 @@ services:
       PGID: ${PGID}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     image: linuxserver/mariadb
-    network_mode: host
+    ports:
+      - 3306:3306
     restart: always
     volumes:
       - ./mariadb/config:/config

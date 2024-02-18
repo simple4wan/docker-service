@@ -79,7 +79,7 @@ services:
       PGID: ${PGID}
     image: linuxserver/nginx
     ports:
-      - 8443:8443
+      - 60443:60443
     restart: always
     volumes:
       - ./nginx/config:/config

@@ -111,6 +111,15 @@ services:
     restart: always
     volumes:
       - ./qinglong/data:/ql/data
+  redis:
+    environment:
+      - TZ=Asia/Shanghai
+    image: redis
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - ./redis/data:/data
   scrypted:
     environment:
       TZ: '${TZ}'
